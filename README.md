@@ -1,7 +1,5 @@
 This project simulates a mischievous Genie that responds to user wishes with twists, humor, and wordplay. The Genie aims to learn which types of twists users like the most and improve over time.
 
-Work in Progress - 75% Complete
-
 cat.py = Wish Categorization module
 
 rl_agent.py = Q-Learning module
@@ -9,6 +7,8 @@ rl_agent.py = Q-Learning module
 response.py = Response Generation module
 
 main.py = Where all the modules are brought together
+
+q_table.json = Q-Table in readable format
 
 How it works:
 
@@ -24,4 +24,5 @@ How it works:
 
 Acknowledgements:
 - Implemented and debugged primarily by me.
-- I used ChatGPT occasionally to help with debugging code and understanding the details of implementation but all core design and logic were developed independently. 
+- I used ChatGPT occasionally to help with debugging code and understanding the details of implementation but all core design and logic were developed independently.
+- The OpenAI API was used for the response module and it was very cheap.
