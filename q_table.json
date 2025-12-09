@@ -1,0 +1,30 @@
+{
+  "Physical Item": {
+    "Literal": 8.913057931831592,
+    "Substitution": 10.452911034173788,
+    "Exaggerate": 2.3715270656,
+    "Opposite": 5.768037681155645,
+    "Puns": 0
+  },
+  "Money": {
+    "Literal": 0,
+    "Substitution": 8.878618573913766,
+    "Exaggerate": 0,
+    "Opposite": 5.135879187522604,
+    "Puns": 4.255229485487215
+  },
+  "Powers/Abilities": {
+    "Literal": 3.705225835996774,
+    "Substitution": 1.0578989055999997,
+    "Exaggerate": 4.473007824914606,
+    "Opposite": 7.816845276945304,
+    "Puns": 3.322108054103742
+  },
+  "Random": {
+    "Literal": 0.8,
+    "Substitution": 0,
+    "Exaggerate": 0,
+    "Opposite": 0,
+    "Puns": 0
+  }
+}
