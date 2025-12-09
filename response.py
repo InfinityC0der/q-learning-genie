@@ -1,33 +1,50 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
-import torch
+import os
+from openai import OpenAI
+from dotenv import load_dotenv
 
-modelName = "EleutherAI/gpt-neo-125M"  #Grabbed off of huggingface documentation:(https://huggingface.co/docs/transformers/quicktour)
-tokenizer = AutoTokenizer.from_pretrained(modelName)
-model = AutoModelForCausalLM.from_pretrained(modelName)
+load_dotenv()#Loading the .env file to get the API key
 
-device = torch.device("cpu")
-model.to(device)
+api_key = os.getenv("key")
+client = OpenAI(api_key=api_key)#Here we use the OpenAI constructor because the client object NEEDS the key and we set the parameter equal to the variable
 
+ChatModel = "gpt-4.1-mini"
+
+#Twist Strategies
 actionToPrompts = {
-    "Literal":"Misinterpret the user's wish by taking it too literally and make it backfire in a funny way",
-    "Substitution":"Find a reasonable substitute for the wish to make it backfire in a funny way",
-    "Exaggerate":"Exaggerate the wish to a extreme, ridiculous, or over-the-top version in a funny way",
-    "Opposite": "Misunderstand the user and grant the opposite of the wish in a funny way",
-    "Puns": "Make the wish backfire in a funny way with wordplay or puns"
+    "Literal":"Take the wish literally and make it backfire humorously.",
+    "Substitution":"Substitute the wish with something similar that backfires humorously",
+    "Exaggerate":"Exaggerate the wish to make it backfire humorously",
+    "Opposite": "Grant the opposite of the wish to make it backfire humorously",
+    "Puns": "Make the wish backfire with wordplay or puns"
 }
 
 def response(wish, action):
-    twistStrat = actionToPrompts[action]
-    
-    prompt = (    
-    f"You are a mischievous genie{twistStrat}"
-    f"Use 1-2 sentences. \nUser's wish: {wish}\nGenie's reply:"
+    twistAction = actionToPrompts[action]
+
+    prompt = f"""
+    You're a mischievous genie.
+    {twistAction}
+Wish: "{wish}"
+Respond in 1-2 hilarious sentences.
+""" 
+    # Call Chat Completions API
+    res = client.chat.completions.create(
+        model=ChatModel,
+        messages=[{"role": "user", "content": prompt}],
+        max_completion_tokens=100
     )
-    inputIDs = tokenizer(prompt, return_tensors="pt").input_ids.to(device) #Grabbed off of huggingface documentation:(https://huggingface.co/docs/transformers/model_doc/gpt2#quick-tour)
 
-    outputIDs = model.generate(inputIDs, max_length=200, do_sample=True, temperature=0.9, top_p=0.95, eos_token_id=tokenizer.eos_token_id)
-    responseText = tokenizer.decode(outputIDs[0], skip_special_tokens=True)
+    # Extract the text from the response
+    return res.choices[0].message.content.strip()
 
-    return responseText
+def main():
+    test_wish = "I want to fly"
+    test_action = "Exaggerate"
+
+    result = response(test_wish, test_action)
+    print("Genie response:", result)
+
+#main()
+
 
 
